@@ -1,0 +1,44 @@
+volumes:
+  pg_data:
+  static:
+  media:
+
+services:
+  db:
+    image: postgres:13
+    container_name: kittygram_db
+    env_file: .env
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    restart: always
+
+  backend:
+    image: guineapigproger/kittygram_backend  # Ваш образ на Docker Hub
+    container_name: kittygram_backend
+    env_file: .env
+    volumes:
+      - static:/app/static
+      - media:/app/media
+    depends_on:
+      - db
+    restart: always
+
+  frontend:
+    image: guineapigproger/kittygram_frontend  # Ваш образ на Docker Hub
+    container_name: kittygram_frontend
+    volumes:
+      - static:/app/build
+    restart: always
+
+  gateway:
+    image: guineapigproger/kittygram_gateway  # Ваш образ на Docker Hub
+    container_name: kittygram_gateway
+    ports:
+      - "9000:80"
+    volumes:
+      - static:/static
+      - media:/media
+    depends_on:
+      - backend
+      - frontend
+    restart: always

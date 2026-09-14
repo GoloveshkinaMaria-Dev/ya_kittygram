@@ -139,7 +139,7 @@ docker compose -f docker-compose.production.yml exec backend python manage.py mi
 docker compose -f docker-compose.production.yml exec backend python manage.py collectstatic --no-input
 ```
 
-## Секреты GitHub Actions
+## GitHub Actions
 
 В настройках репозитория (**Settings → Secrets and variables → Actions**)
 должны быть заданы:
